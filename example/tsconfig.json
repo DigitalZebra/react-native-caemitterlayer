@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "react-native-caemitterlayer": ["../src/index"],
+      "react-native-caemitterlayer/*": ["../src/*"]
+    }
+  }
+}
