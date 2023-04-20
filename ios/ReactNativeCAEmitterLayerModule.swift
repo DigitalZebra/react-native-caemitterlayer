@@ -6,11 +6,11 @@ public class ReactNativeCAEmitterLayerModule: Module {
 
         View(ReactNativeCAEmitterLayerView.self) {
             Prop("config") { (view: ReactNativeCAEmitterLayerView, prop: EmitterConfiguration) in
-                // TODO: what's a better way to re-throw errors...?
                 do {
                     try view.setCellConfig(config: prop)
                 }
                 catch {
+                    // TODO: is there an Expo way to re-throw these errors...?
                     print("\(error)")
                 }
             }

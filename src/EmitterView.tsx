@@ -34,6 +34,8 @@ function EmitterViewIOS({ emitterConfig, ...rest }: EmitterViewProps) {
   )
 
   const config: NativeEmitterConfiguration = {
+    // TODO: fix this TS error - technically this is not safe, as keys can be present but values undefined.
+    // @ts-expect-error
     layer: layersWithDefaults,
   }
 
@@ -143,6 +145,7 @@ function recursivelyApplyDefaults(
     )
 
     // TODO: fix the emitter cell types - technically this is not safe, as keys can be present but values undefined.
+    // @ts-expect-error
     defaultedCells.push(cellWithDefaults)
   })
 

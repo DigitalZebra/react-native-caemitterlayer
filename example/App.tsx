@@ -12,11 +12,16 @@ import {
 import { BurstEffect } from './examples/BurstEffect'
 import { Confetti } from './examples/Confetti'
 import { ConfettiCannon } from './examples/ConfettiCannon'
+import { Fire } from './examples/Fire'
 import { Fireworks } from './examples/Fireworks'
 import { PokemonList } from './examples/List'
 import { Snow } from './examples/Snow'
 
 const Examples: Record<string, { Component: React.FC; title: string }> = {
+  Fire: {
+    Component: Fire,
+    title: 'Fire',
+  },
   Snow: {
     Component: Snow,
     title: 'Snow',
