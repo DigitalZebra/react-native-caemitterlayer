@@ -1,7 +1,7 @@
 {
   "name": "react-native-caemitterlayer",
   "version": "0.1.0",
-  "description": "A Expo module bridging CAEmitterLayer",
+  "description": "An Expo module bridging CAEmitterLayer",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
