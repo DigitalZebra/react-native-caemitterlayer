@@ -4,13 +4,15 @@ A React Native wrapper for iOS's [CAEmitterLayer](https://developer.apple.com/do
 
 ## Installation
 
-> This module is built on [Expo Modules API](https://docs.expo.dev/modules/overview/) and thus requires Expo 47 or above.
+> ⚠️ This module is built on [Expo Modules API](https://docs.expo.dev/modules/overview/) and thus requires Expo 47 or above.
 > If your project is a "vanilla" React Native application, consider [adding Expo to it](https://docs.expo.dev/bare/installing-expo-modules/) to utilize the Expo ecosystem.
 
 Add the package to your app with the following command:
 ```bash
 npx expo install react-native-caemitterlayer
 ```
+
+> ℹ️ If not already, you will have to adopt [Prebuild](https://docs.expo.dev/workflow/prebuild/) or [Expo Dev Client](https://docs.expo.dev/develop/development-builds/introduction/) to make use of custom native modules.
 
 ## Roadmap
 Future plans for features/enhancements/fixes (in no particular order/priority):
