@@ -16,8 +16,14 @@ export type EmitterShape =
 export type EmitterMode = 'points' | 'outline' | 'surface' | 'volume'
 
 export type EmitterLayer = {
+  /**
+   * `true` to emit particles, `false` to not emit particles.
+   */
   enabled?: boolean
 
+  /**
+   * Values to be set on initial mount and whenever {@link EmitterLayer.enabled} flips from false to true.
+   */
   initialValues?: {
     seed?: number
 
@@ -48,6 +54,9 @@ export type EmitterLayer = {
   emitterShape?: EmitterShape
   emitterSize?: { width: number; height: number }
 
+  /**
+   * Particles to be emitted by this layer.
+   */
   emitterCells?: EmitterCellType[]
 }
 
@@ -55,9 +64,17 @@ export type FillMode = 'forwards' | 'backwards' | 'both' | 'removed'
 
 export type EmitterCellType = {
   // name?: string
+
+  /**
+   * Sub particles to be emitted by this cell.
+   */
   emitterCells?: EmitterCellType[]
 
   color?: string
+
+  /**
+   * Image data as a base64 encoded string.
+   */
   imageData?: string
 
   contentsScale?: number
@@ -97,6 +114,10 @@ export type EmitterCellType = {
   yAcceleration?: number
   zAcceleration?: number
 
+  /**
+   * Maps to NSKeyValueCoding's `setValue` function:
+   * https://developer.apple.com/documentation/objectivec/nsobject/1415969-setvalue
+   */
   values?: { [key: string]: number | string }
 
   // CAMediaTiming properties

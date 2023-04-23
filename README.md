@@ -36,19 +36,34 @@ import { EmitterView } from 'react-native-caemitterlayer';
 
 <EmitterView
    emitterConfig={...}
-   style={...}
 />
 ```
 
-#### Props
+**Props**
 
-##### `emitterConfig`
+#### `emitterConfig: EmitterConfigPropType` (required)
+The `emitterConfig` prop accepts an object containing the configuration for the emitter.
 
-TODO
+#### `emitterConfig.layer: EmitterLayer` (required)
+Configures the single `CAEmitterLayer` which will render particles.
 
-##### `style`
+#### `emitterConfig.layer.enabled?: boolean`
+Whether or not the emitter is enabled. Defaults to `true`.
 
-This is the normal [React Native `View` style prop](https://reactnative.dev/docs/view-style-props) and can be used to position/style the emitter view.
+#### `emitterConfig.layer.initialValues?: object`
+Configuration values which are applied to the `CAEmitterLayer` on mount and whenever the layer transitions from `enabled: false` -> `enabled: true`. 
+This is useful for setting certain [`CAMediaTiming` properties](https://developer.apple.com/documentation/quartzcore/camediatiming) which should only be set once (e.g. `beginTime`).
+
+#### `emitterConfig.layer.emitterCells?: EmitterCellType[]`
+An array of `EmitterCellType` objects which act as templates for the particles emitted by the layer. 
+Each property on the `EmitterCellType` is optional and has the same defaults as the corresponding property on `CAEmitterCell`. See the [CAEmitterCell docs](https://developer.apple.com/documentation/quartzcore/caemittercell) for details on each property.
+
+#### `emitterConfig.layer` - `CAEmitterLayer` properties
+The rest of the properties on `emitterConfig.layer` are passed directly to the `CAEmitterLayer` instance (if set) and have the same defaults they would on `CAEmitterLayer`. See the [CAEmitterLayer docs](https://developer.apple.com/documentation/quartzcore/caemitterlayer) for details on each property.
+
+#### `...ViewProps`
+
+`EmitterView` also accepts all the same props (i.e. `style`) as a normal [React Native `View`](https://reactnative.dev/docs/view).
 
 ## 🗺️ Roadmap
 
