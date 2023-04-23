@@ -42,10 +42,9 @@ const layerConfig: EmitterLayer = {
   emitterShape: 'rectangle',
   emitterCells: [
     {
-      imageData: circle,
       lifetime: 0.3,
       birthRate: 0.5,
-      emitterCells: burstCells,
+      emitterCells: shuffle(burstCells),
     },
   ],
 }
@@ -62,4 +61,21 @@ export function BurstEffect() {
   }
 
   return <EmitterView emitterConfig={emitterConfig} style={{ flex: 1 }} />
+}
+
+function shuffle<T>(array: T[]) {
+  const result = [...array]
+  let currentIndex = result.length,
+    temporaryValue,
+    randomIndex
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex -= 1
+    temporaryValue = result[currentIndex]
+    result[currentIndex] = result[randomIndex]
+    result[randomIndex] = temporaryValue
+  }
+
+  return result
 }

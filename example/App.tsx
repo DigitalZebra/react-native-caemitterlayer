@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
+import { Basic } from './examples/Basic'
 import { BurstEffect } from './examples/BurstEffect'
 import { Confetti } from './examples/Confetti'
 import { ConfettiCannon } from './examples/ConfettiCannon'
@@ -18,6 +19,10 @@ import { PokemonList } from './examples/List'
 import { Snow } from './examples/Snow'
 
 const Examples: Record<string, { Component: React.FC; title: string }> = {
+  Basic: {
+    Component: Basic,
+    title: 'Basic',
+  },
   Fire: {
     Component: Fire,
     title: 'Fire',
