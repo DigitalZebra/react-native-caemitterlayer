@@ -10,7 +10,7 @@ A React Native wrapper for iOS's <a target="_blank" href="https://developer.appl
    <img src=".github/images/fire.gif" width="200" alt="a GIF of a view emitting flames from the top" />
 </p>
 <p align="center">
-   <a href="#-installation">Installation</a> | <a href="#-basic-usage">Basic Usage</a> | <a href="#-documentation">Documentation/API</a> | <a href="# -roadmap">Roadmap</a> | <a href="#-acknowledgements">Acknowledgements</a>
+   <a href="#-installation">Installation</a> | <a href="#-basic-usage">Basic Usage</a> | <a href="#-documentation">Documentation/API</a> | <a href="#%EF%B8%8F-roadmap">Roadmap</a> | <a href="#-acknowledgements">Acknowledgements</a>
 </p>
 
 ## 💿 Installation
