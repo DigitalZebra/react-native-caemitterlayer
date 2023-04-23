@@ -12,20 +12,21 @@ A React Native wrapper for iOS's <a target="_blank" href="https://developer.appl
 
 ## 💿 Installation
 
-> ⚠️ This module is built on [Expo Modules API](https://docs.expo.dev/modules/overview/) and thus requires Expo 47 or above.
-> If your project is a "vanilla" React Native application, consider [adding Expo to it](https://docs.expo.dev/bare/installing-expo-modules/) to utilize the Expo ecosystem.
-
-Add the package to your app with the following command:
+Add this package to your app with the following command:
 
 ```bash
 npx expo install react-native-caemitterlayer
 ```
 
+> ⚠️ This module is built on [Expo Modules API](https://docs.expo.dev/modules/overview/) and thus requires Expo 47 or above.
+> If your project is a "vanilla" React Native application, consider [adding Expo to it](https://docs.expo.dev/bare/installing-expo-modules/) to utilize the Expo ecosystem.
+
+
 > ℹ️ If not already, you will have to adopt [Expo prebuild](https://docs.expo.dev/workflow/prebuild/) or [Expo dev builds](https://docs.expo.dev/develop/development-builds/introduction/) to make use of custom native modules.
 
 ## 🔥 Basic Usage
 
-Check out the [example app](examples/) for more in depth and powerful examples.
+Check out the [example app](example/) for more in depth and powerful examples.
 
 ## 📖 Documentation
 
@@ -42,7 +43,7 @@ import { EmitterView } from 'react-native-caemitterlayer';
 **Props**
 
 #### `emitterConfig: EmitterConfigPropType` (required)
-The `emitterConfig` prop accepts an object containing the configuration for the emitter.
+The `CAEmitterLayer` configuration for this `EmitterView`. See below for how to configure this prop, or check out the example app's [examples](example/examples/) for working examples.
 
 #### `emitterConfig.layer: EmitterLayer` (required)
 Configures the single `CAEmitterLayer` which will render particles.
@@ -51,7 +52,7 @@ Configures the single `CAEmitterLayer` which will render particles.
 Whether or not the emitter is enabled. Defaults to `true`.
 
 #### `emitterConfig.layer.initialValues?: object`
-Configuration values which are applied to the `CAEmitterLayer` on mount and whenever the layer transitions from `enabled: false` -> `enabled: true`. 
+Values which are applied to the `CAEmitterLayer` on mount and whenever the layer transitions from `enabled: false` -> `enabled: true`. 
 This is useful for setting certain [`CAMediaTiming` properties](https://developer.apple.com/documentation/quartzcore/camediatiming) which should only be set once (e.g. `beginTime`).
 
 #### `emitterConfig.layer.emitterCells?: EmitterCellType[]`
@@ -63,7 +64,7 @@ The rest of the properties on `emitterConfig.layer` are passed directly to the `
 
 #### `...ViewProps`
 
-`EmitterView` also accepts all the same props (i.e. `style`) as a normal [React Native `View`](https://reactnative.dev/docs/view).
+`EmitterView` also accepts all the same `ViewProps` props (i.e. `style`) as a [React Native `View`](https://reactnative.dev/docs/view).
 
 ## 🗺️ Roadmap
 
@@ -71,11 +72,11 @@ Future plans for features/enhancements/fixes (in no particular order/priority):
 
 - **Better image support**
 
-  This library currently requires inlining of the images used in emitter cells. The images must be represented as base64 strings on the JS side. This isn't ideal for performance or developer ergonomics. A better way of handling images is high priority.
+  This library currently requires inlining of the images used for emitter cells (via `EmitterCellType.imageData`). The images must be represented as base64 encoded strings on the JS side. This isn't ideal for performance or developer ergonomics. A better way of handling images is high priority.
 
 - **Better animation support**
 
-  It's currently not possible to directly animate the `<EmitterView>` via RN Animated or Reanmiated. Will be looking at ways to support this to avoid having to wrap the `<EmitterView>` in an `<Animated.View>` or similar.
+  It's currently not possible to animate `EmitterView` directly via RN Animated or Reanmiated. Will be looking at ways to support this to avoid having to wrap the `<EmitterView>` in an `<Animated.View>` or similar.
 
 - **Support placeholders for `emitterPosition` and `emitterSize`.**
 
@@ -92,7 +93,7 @@ Android support is not planned at this time. Android does not contain a built in
 
 ## 🙌 Acknowledgements
 
-A number of blog posts helped inspire and test the APIs via their helpful examples/explanations:
+A number of blog posts helped immensely with learning `CAEmitterLayer`. These authors also provided great examples which were used to test this library's functionality:
 
 - https://nshipster.com/caemitterlayer/ by [@Mattt](https://github.com/mattt)
 - https://bryce.co/caemitterbehavior/ by [@brycepauken](https://github.com/brycepauken)
