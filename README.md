@@ -27,6 +27,15 @@ npx expo install react-native-caemitterlayer
 
 `EmitterView` requires an `emitterConfig` prop which configures the underlying `CAEmitterLayer` and `CAEmitterCell`s to be emitted.
 
+
+<table>
+<tr>
+   <th align="center">Basic example</th>
+   <th align="center">Result</th>
+</tr>
+<tr>
+<td width="50%">
+
 ```tsx
 import { View } from 'react-native'
 import { EmitterConfigPropType, EmitterView } from 'react-native-caemitterlayer'
@@ -72,11 +81,16 @@ export function BasicExample() {
 }
 ```
 
+</td>
+<td width="50%">
 The code above produces this result:
 
 <p align="center">
    <img src=".github/images/basic.gif" width="300" alt="a GIF of a view emitting circles from the top." />
 </p>
+</td>
+</tr>
+</table>
 
 Check out the [example app](example/) for more in depth and powerful examples.
 
