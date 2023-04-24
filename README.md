@@ -28,13 +28,13 @@ npx expo install react-native-caemitterlayer
 
 ## 🔥 Basic Usage
 
-`EmitterView` requires an `emitterConfig` prop which configures the underlying `CAEmitterLayer` and `CAEmitterCell`s to be emitted.
+`EmitterView` requires an `emitterConfig` prop, which contains the configuration for the underlying `CAEmitterLayer` and its associated `CAEmitterCell`s.
 
 ```tsx
 import { View } from 'react-native'
 import { EmitterConfigPropType, EmitterView } from 'react-native-caemitterlayer'
 
-const circleBase64 = '...' // omitted for brevity, see Basic example: example/examples/Basic.tsx
+const circleBase64 = '...' // omitted for brevity, see "basic" example for value.
 
 export function BasicExample() {
   const emitterConfig: EmitterConfigPropType = {
@@ -75,7 +75,7 @@ export function BasicExample() {
 }
 ```
 
-<p align="center">The code above produces this result:</p>
+<p align="center">The code above produces this:</p>
 <p align="center">
    <img src=".github/images/basic.gif" width="300" alt="a GIF of a view emitting circles from the top." />
 </p>
