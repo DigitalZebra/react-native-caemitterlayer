@@ -62,6 +62,21 @@ export type EmitterLayer = {
 
 export type FillMode = 'forwards' | 'backwards' | 'both' | 'removed'
 
+export type StringContents = {
+  type: 'string'
+  value: string
+}
+
+export type ImageContents = {
+  type: 'image'
+  value: {
+    imageData: string
+  }
+}
+
+// TODO: add ImageContents in the future once API is a bit cleaner...?
+export type ContentsType = StringContents /* | ImageContents */
+
 export type EmitterCellType = {
   // name?: string
 
@@ -71,6 +86,8 @@ export type EmitterCellType = {
   emitterCells?: EmitterCellType[]
 
   color?: string
+
+  contents?: ContentsType | null
 
   /**
    * Image data as a base64 encoded string.

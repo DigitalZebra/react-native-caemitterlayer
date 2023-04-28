@@ -52,4 +52,18 @@ struct Helpers {
         
         return img.cgImage
     }
+    
+    static func createImage(from: String) -> CGImage? {
+        let font = UIFont.systemFont(ofSize: 16.0)
+        
+        let string = NSString(string: from)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font
+        ]
+        let size = string.size(withAttributes: attributes)
+
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            string.draw(at: .zero, withAttributes: attributes)
+        }.cgImage
+    }
 }

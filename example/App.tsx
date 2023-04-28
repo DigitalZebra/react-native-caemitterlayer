@@ -13,6 +13,7 @@ import { Basic } from './examples/Basic'
 import { BurstEffect } from './examples/BurstEffect'
 import { Confetti } from './examples/Confetti'
 import { ConfettiCannon } from './examples/ConfettiCannon'
+import { Emoji } from './examples/Emoji'
 import { Fire } from './examples/Fire'
 import { Fireworks } from './examples/Fireworks'
 import { PokemonList } from './examples/List'
@@ -22,6 +23,10 @@ const Examples: Record<string, { Component: React.FC; title: string }> = {
   Basic: {
     Component: Basic,
     title: 'Basic',
+  },
+  Emoji: {
+    Component: Emoji,
+    title: 'Emoji',
   },
   Fire: {
     Component: Fire,

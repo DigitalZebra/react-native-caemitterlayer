@@ -56,6 +56,8 @@ struct CellConfig: Decodable {
     let color: String
     let imageData: String
 
+    let contents: ContentsValue?
+    
     let isEnabled: Bool
     
     let contentsScale: CGFloat

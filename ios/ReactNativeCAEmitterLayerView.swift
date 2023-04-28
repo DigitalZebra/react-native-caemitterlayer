@@ -103,6 +103,17 @@ class ReactNativeCAEmitterLayerView: ExpoView {
             
             cell.emitterCells = recursivelyMapCells(cellConfigs: cellConfig.emitterCells)
             
+            if let cellContents = cellConfig.contents {
+                switch cellContents {
+                case .string(let s):
+                    cell.contents = Helpers.createImage(from: s)
+                case .image(let imageData):
+                    if let data = Data(base64Encoded: imageData.imageData), let image = UIImage(data: data) {
+                        cell.contents = image.cgImage
+                    }
+                }
+            }
+            
             if cellConfig.imageData != "" {
                 if let data = Data(base64Encoded: cellConfig.imageData), let image = UIImage(data: data) {
                     cell.contents = image.cgImage

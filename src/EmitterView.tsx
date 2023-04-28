@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform, View, ViewProps } from 'react-native'
 
 import { ReactNativeCAEmitterLayerView } from './ReactNativeCAEmitterLayerView'
-import { EmitterCellType, EmitterLayer } from './types'
+import { EmitterCellType, EmitterLayer, StringContents } from './types'
 
 type NativeCellConfiguration = Required<EmitterCellType> & {
   emitterCells: Required<EmitterCellType>[]
@@ -21,6 +21,14 @@ export type EmitterConfigPropType = {
 export type EmitterViewProps = {
   emitterConfig: EmitterConfigPropType
 } & ViewProps
+
+// TODO: not sure how I feel about this API
+export function stringContents(value: string): StringContents {
+  return {
+    type: 'string',
+    value,
+  }
+}
 
 function EmitterViewIOS({ emitterConfig, ...rest }: EmitterViewProps) {
   const layersWithDefaults = Object.assign(
@@ -93,6 +101,7 @@ const defaultCellConfig: Required<EmitterCellType> = {
   color: 'white',
   emitterCells: [],
   imageData: '',
+  contents: null,
   isEnabled: true,
   contentsScale: 1,
   emissionLatitude: 0,
