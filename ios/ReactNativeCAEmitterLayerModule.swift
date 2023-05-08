@@ -14,6 +14,10 @@ public class ReactNativeCAEmitterLayerModule: Module {
                     print("\(error)")
                 }
             }
+            
+            Prop("recordTest") { (view: ReactNativeCAEmitterLayerView, prop: EmitterConfigurationRecord) in
+                view.setCellConfigRecord(config: prop)
+            }
         }
     }
 }

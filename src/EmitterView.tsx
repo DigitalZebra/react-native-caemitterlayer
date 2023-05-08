@@ -14,6 +14,20 @@ type NativeLayerConfiguration = Required<EmitterLayer> & {
 
 type NativeEmitterConfiguration = { layer: NativeLayerConfiguration }
 
+type NewNativeCellConfiguration = Omit<
+  EmitterCellType,
+  'values' | 'emitterCells'
+> & {
+  values?: { key: string; value: number | string }[]
+  emitterCells: NewNativeCellConfiguration[]
+}
+
+type NewNativeLayerConfiguration = Omit<EmitterLayer, 'emitterCells'> & {
+  emitterCells: NewNativeCellConfiguration[]
+}
+
+type NewNativeEmitterConfiguration = { layer: NewNativeLayerConfiguration }
+
 export type EmitterConfigPropType = {
   layer: EmitterLayer
 }
@@ -47,8 +61,21 @@ function EmitterViewIOS({ emitterConfig, ...rest }: EmitterViewProps) {
     layer: layersWithDefaults,
   }
 
+  const newLayer = {
+    ...emitterConfig.layer,
+    emitterCells: recursivelyMapCells(emitterConfig.layer.emitterCells ?? []),
+  }
+
+  const newConfig: NewNativeEmitterConfiguration = {
+    layer: newLayer,
+  }
+
   return (
-    <ReactNativeCAEmitterLayerView config={JSON.stringify(config)} {...rest} />
+    <ReactNativeCAEmitterLayerView
+      config={JSON.stringify(config)}
+      {...rest}
+      recordTest={newConfig}
+    />
   )
 }
 
@@ -159,4 +186,38 @@ function recursivelyApplyDefaults(
   })
 
   return defaultedCells
+}
+
+// Ugly and needs tests
+function recursivelyMapCells(
+  cells: EmitterCellType[],
+): NewNativeCellConfiguration[] {
+  return cells.map(cell => {
+    const cellWithNoNulls = Object.keys(cell).reduce((acc, key) => {
+      const value = cell[key]
+
+      if (value === null || value === undefined) {
+        return acc
+      }
+
+      acc[key] = cell[key]
+
+      // values requires special handling/mapping due to native side conversion
+      // Transform values object into an array of key/value pairs
+      // { a: 1, b: 2 } => [{ key: 'a', value: 1 }, { key: 'b', value: 2 }]
+      if (key === 'values' && typeof value === 'object') {
+        // goofy but makes TS happy
+        const valuesObject = cell[key] ?? {}
+        acc[key] = Object.entries(valuesObject).map(([a, b]) => ({
+          key: a,
+          value: b,
+        }))
+      }
+      return acc
+    }, {} as NewNativeCellConfiguration)
+
+    cellWithNoNulls.emitterCells = recursivelyMapCells(cell.emitterCells ?? [])
+
+    return cellWithNoNulls
+  })
 }

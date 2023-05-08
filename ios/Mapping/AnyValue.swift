@@ -28,5 +28,6 @@ enum AnyValue: Decodable {
 
     enum AnyValueError: Error {
         case missingValue
+        case unsupportedValue
     }
 }

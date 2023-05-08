@@ -15,7 +15,7 @@ class ReactNativeCAEmitterLayerView: ExpoView {
     }
     
     required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
+        super.init(appContext: appContext)    
         
         setUpEmitter()
     }
@@ -128,7 +128,7 @@ class ReactNativeCAEmitterLayerView: ExpoView {
         
         return mappedCells
     }
-    
+
     func setCellConfig(config: EmitterConfiguration) throws {
         let layer = config.layer
         
@@ -162,5 +162,9 @@ class ReactNativeCAEmitterLayerView: ExpoView {
         }
         
         isEmitting = config.layer.enabled
+    }
+    
+    func setCellConfigRecord(config: EmitterConfigurationRecord) {
+        
     }
 }
