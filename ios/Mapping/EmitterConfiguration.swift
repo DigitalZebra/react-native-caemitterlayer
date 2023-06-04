@@ -55,6 +55,9 @@ struct InitialLayerValues: Decodable {
 struct CellConfig: Decodable {
     let color: String
     let imageData: String
+    
+    // TODO: remove this property before shipping
+    let imageSource: DecodableRCTCAImageSource?
 
     let contents: ContentsValue?
     

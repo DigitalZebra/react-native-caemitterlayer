@@ -1,8 +1,10 @@
 import ExpoModulesCore
 import Foundation
+import React
 
 class ReactNativeCAEmitterLayerView: ExpoView {
     var isEmitting: Bool = false
+    var emitterImageLoader: EmitterImageLoader?
     
     private let emitter: CAEmitterLayer = {
         let emitterLayer = CAEmitterLayer()
@@ -17,10 +19,15 @@ class ReactNativeCAEmitterLayerView: ExpoView {
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
         
+        let imageLoader = appContext?.reactBridge?.module(for: RCTImageLoader.self) as? RCTImageLoader
+        if let imageLoader {
+            emitterImageLoader = EmitterImageLoader(rctImageLoader: imageLoader)
+        }
+        
         setUpEmitter()
     }
     
-    func recursivelyMapCells(cellConfigs: [CellConfig]?) -> [CAEmitterCell]? {
+    func recursivelyMapCells(cellConfigs: [CellConfig]?, images: [String: UIImage]? = nil) -> [CAEmitterCell]? {
         guard let cellConfigs, cellConfigs.count != 0 else { return nil }
         
         let mappedCells = cellConfigs.map { (cellConfig: CellConfig) in
@@ -123,6 +130,10 @@ class ReactNativeCAEmitterLayerView: ExpoView {
                 }
             }
             
+            if let source = cellConfig.imageSource, let images = images {
+                cell.contents = images[source.uri]?.cgImage
+            }
+            
             return cell
         }
         
@@ -146,7 +157,11 @@ class ReactNativeCAEmitterLayerView: ExpoView {
         emitter.emitterShape = CAEmitterLayerEmitterShape(rawValue: layer.emitterShape)
         emitter.emitterSize = CGSize(width: layer.emitterSize.width, height: layer.emitterSize.height)
         
-        emitter.emitterCells = recursivelyMapCells(cellConfigs: layer.emitterCells)
+        emitterImageLoader?.loadImagesFor(cellConfigs: layer.emitterCells) { images in
+            self.runOnMain {
+                self.emitter.emitterCells = self.recursivelyMapCells(cellConfigs: layer.emitterCells, images: images)
+            }
+        }
         
         // If not emitting, and we want to emit, set initial values (if applicable)
         if !isEmitting, config.layer.enabled {
@@ -162,5 +177,14 @@ class ReactNativeCAEmitterLayerView: ExpoView {
         }
         
         isEmitting = config.layer.enabled
+    }
+    
+    private func runOnMain(execute: @escaping () -> Void) {
+        if Thread.isMainThread {
+            execute()
+        }
+        else {
+            DispatchQueue.main.async(execute: execute)
+        }
     }
 }

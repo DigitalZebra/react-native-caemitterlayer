@@ -1,3 +1,5 @@
+import type { ImageRequireSource } from 'react-native'
+
 export type RenderMode =
   | 'unordered'
   | 'oldestFirst'
@@ -67,15 +69,7 @@ export type StringContents = {
   value: string
 }
 
-export type ImageContents = {
-  type: 'image'
-  value: {
-    imageData: string
-  }
-}
-
-// TODO: add ImageContents in the future once API is a bit cleaner...?
-export type ContentsType = StringContents /* | ImageContents */
+export type ContentsType = StringContents
 
 export type EmitterCellType = {
   // name?: string
@@ -87,12 +81,24 @@ export type EmitterCellType = {
 
   color?: string
 
+  /**
+   * @deprecated Use {@link EmitterCellType.stringContents} or {@link EmitterCellType.imageContents} instead. Will be removed in a future release.
+   */
   contents?: ContentsType | null
+
+  stringContents?: string
+
+  imageContents?: ImageRequireSource
 
   /**
    * Image data as a base64 encoded string.
    */
   imageData?: string
+
+  // TODO: remove this before shipping
+  imageSource?: {
+    uri: string
+  }
 
   contentsScale?: number
 
