@@ -19,7 +19,7 @@ export function Basic() {
         {
           // imageData: circleBase64, // base64 encoded PNG image
           color: '#006699',
-          imageSource: Image.resolveAssetSource(source),
+          imageContents: source,
           lifetime: 5, // particles live for 5 seconds
           velocity: 20,
           birthRate: 1, // One particle per second

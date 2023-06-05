@@ -26,8 +26,8 @@ class EmitterImageLoader {
         while cellsToCheck.count > 0 {
             let cell = cellsToCheck.removeFirst()
 
-            if let source = cell.imageSource {
-                finalSet.insert(source.uri)
+            if let imageContents = cell.imageContents {
+                finalSet.insert(imageContents.uri)
             }
 
             if let moreCells = cell.emitterCells {
