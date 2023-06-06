@@ -3,7 +3,6 @@ import ExpoModulesCore
 import Foundation
 import React
 
-// TODO: is this needed?
 enum ImageLoadingError: Error {
     case noImageLoaded
 }

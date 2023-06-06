@@ -109,33 +109,34 @@ class ReactNativeCAEmitterLayerView: ExpoView {
             }
             
             cell.emitterCells = recursivelyMapCells(cellConfigs: cellConfig.emitterCells, images: images)
-            
-            // TODO: clean this up somehow
-            if let stringContents = cellConfig.contents {
-                cell.contents = Helpers.createImage(from: stringContents.value)
-            }
-            else if let stringContents = cellConfig.stringContents {
-                cell.contents = Helpers.createImage(from: stringContents.value)
-            }
-            else if let imageData = cellConfig.imageData {
-                if let data = Data(base64Encoded: imageData), let image = UIImage(data: data) {
-                    cell.contents = image.cgImage
-                }
-                else {
-                    // TODO: throw specific error here...?
-                }
-            }
-            else if let imageContents = cellConfig.imageContents {
-                cell.contents = images[imageContents.uri]?.cgImage
-            }
-            else {
-                // TODO: throw here?
-            }
+            cell.contents = contentsImageFor(cell: cellConfig, images: images)
             
             return cell
         }
         
         return mappedCells
+    }
+    
+    private func contentsImageFor(cell: CellConfig, images: [String: UIImage]) -> CGImage? {
+        if let stringContents = cell.contents {
+            return Helpers.createImage(from: stringContents.value)
+        }
+        else if let stringContents = cell.stringContents {
+            return Helpers.createImage(from: stringContents.value)
+        }
+        else if let imageData = cell.imageData {
+            guard let data = Data(base64Encoded: imageData), let image = UIImage(data: data) else {
+                return nil
+            }
+            
+            return image.cgImage
+        }
+        else if let imageContents = cell.imageContents {
+            return images[imageContents.uri]?.cgImage
+        }
+        
+        // TODO: throw here?
+        return nil
     }
     
     func setCellConfig(config: EmitterConfiguration) throws {
