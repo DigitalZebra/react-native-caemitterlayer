@@ -27,7 +27,7 @@ class ReactNativeCAEmitterLayerView: ExpoView {
         setUpEmitter()
     }
     
-    func recursivelyMapCells(cellConfigs: [CellConfig]?, images: [String: UIImage]? = nil) -> [CAEmitterCell]? {
+    func recursivelyMapCells(cellConfigs: [CellConfig]?, images: [String: UIImage]) -> [CAEmitterCell]? {
         guard let cellConfigs, cellConfigs.count != 0 else { return nil }
         
         let mappedCells = cellConfigs.map { (cellConfig: CellConfig) in
@@ -108,7 +108,7 @@ class ReactNativeCAEmitterLayerView: ExpoView {
                 cell.setValue(x.value.anyValue, forKey: x.key)
             }
             
-            cell.emitterCells = recursivelyMapCells(cellConfigs: cellConfig.emitterCells)
+            cell.emitterCells = recursivelyMapCells(cellConfigs: cellConfig.emitterCells, images: images)
             
             // TODO: clean this up somehow
             if let stringContents = cellConfig.contents {
@@ -125,7 +125,7 @@ class ReactNativeCAEmitterLayerView: ExpoView {
                     // TODO: throw specific error here...?
                 }
             }
-            else if let imageContents = cellConfig.imageContents, let images = images {
+            else if let imageContents = cellConfig.imageContents {
                 cell.contents = images[imageContents.uri]?.cgImage
             }
             else {

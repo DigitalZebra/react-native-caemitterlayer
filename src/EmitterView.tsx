@@ -67,7 +67,6 @@ function EmitterViewIOS({ emitterConfig, ...rest }: EmitterViewProps) {
   )
 
   const config: NativeEmitterConfiguration = {
-    // TODO: fix this TS error - technically this is not safe, as keys can be present but values undefined.
     layer: layersWithDefaults,
   }
 
