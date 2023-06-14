@@ -34,7 +34,7 @@ npx expo install react-native-caemitterlayer
 import { View } from 'react-native'
 import { EmitterConfigPropType, EmitterView } from 'react-native-caemitterlayer'
 
-const circleBase64 = '...' // omitted for brevity, see "basic" example for value.
+const circle = require('../assets/contents/circle.png')
 
 export function BasicExample() {
   const emitterConfig: EmitterConfigPropType = {
@@ -46,7 +46,7 @@ export function BasicExample() {
       },
       emitterCells: [
         {
-          imageData: circleBase64, // base64 encoded PNG image
+          imageContents: circle, // image require'd by Metro bundler
           color: '#006699',
           lifetime: 5, // particles live for 5 seconds
           velocity: 20,
@@ -130,9 +130,9 @@ The rest of the properties on `emitterConfig.layer` are passed directly to the `
 
 Future plans for features/enhancements/fixes (in no particular order/priority):
 
-- **Better image support**
+- **Better image support** ✅ - **Shipped in `v0.3.0`**
 
-  This library currently requires inlining of the images used for emitter cells (via `EmitterCellType.imageData`). The images must be represented as base64 encoded strings on the JS side. This isn't ideal for performance or developer ergonomics. A better way of handling images is high priority.
+  ~~This library currently requires inlining of the images used for emitter cells (via `EmitterCellType.imageData`). The images must be represented as base64 encoded strings on the JS side. This isn't ideal for performance or developer ergonomics. A better way of handling images is high priority.~~
 
 - **Better animation support**
 
