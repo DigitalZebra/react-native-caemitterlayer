@@ -53,12 +53,16 @@ struct InitialLayerValues: Decodable {
 }
 
 struct CellConfig: Decodable {
-    let color: String
-    let imageData: String
-
-    let contents: ContentsValue?
+    
+    // MARK: Contents types
+    let imageData: String?
+    let imageContents: DecodableRCTCAImageSource?
+    let stringContents: StringContents?
+    let contents: StringContents?
     
     let isEnabled: Bool
+    
+    let color: String
     
     let contentsScale: CGFloat
 

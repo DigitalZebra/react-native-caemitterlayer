@@ -1,3 +1,5 @@
+import type { ImageRequireSource } from 'react-native'
+
 export type RenderMode =
   | 'unordered'
   | 'oldestFirst'
@@ -62,38 +64,63 @@ export type EmitterLayer = {
 
 export type FillMode = 'forwards' | 'backwards' | 'both' | 'removed'
 
+/**
+ * @deprecated Use {@link StringContentsOption} instead. Will be removed in a future release.
+ */
 export type StringContents = {
   type: 'string'
   value: string
 }
 
-export type ImageContents = {
-  type: 'image'
-  value: {
-    imageData: string
+/**
+ * @deprecated Use {@link StringContentsOption} instead. Will be removed in a future release.
+ */
+export type ContentsType = StringContents
+
+export type StringContentsOption = {
+  stringContents?: {
+    value: string
   }
+  imageContents?: never
+  imageData?: never
+  contents?: never
 }
 
-// TODO: add ImageContents in the future once API is a bit cleaner...?
-export type ContentsType = StringContents /* | ImageContents */
+export type ImageContentsOption = {
+  imageContents?: ImageRequireSource
+  stringContents?: never
+  imageData?: never
+  contents?: never
+}
 
-export type EmitterCellType = {
-  // name?: string
-
-  /**
-   * Sub particles to be emitted by this cell.
-   */
-  emitterCells?: EmitterCellType[]
-
-  color?: string
-
-  contents?: ContentsType | null
-
-  /**
-   * Image data as a base64 encoded string.
-   */
+export type ImageDataContentsOption = {
   imageData?: string
+  imageContents?: never
+  stringContents?: never
+  contents?: never
+}
 
+/**
+ * @deprecated Use {@link ImageContentsOption.imageContents}, {@link StringContentsOption.stringContents} or {@link ImageDataContentsOption.imageData} instead. This type will be removed in a future release.
+ */
+export type LegacyEmitterCellContents = {
+  /**
+   * @deprecated Use {@link EmitterCellType.stringContents}, {@link EmitterCellType.imageContents} or {@link EmitterCellType.imageData} instead. Will be removed in a future release.
+   */
+  contents?: ContentsType | null
+  imageContents?: never
+  stringContents?: never
+  imageData?: never
+}
+
+export type EmitterCellContents =
+  | StringContentsOption
+  | ImageContentsOption
+  | ImageDataContentsOption
+  | LegacyEmitterCellContents
+
+export type EmitterCellValues = {
+  color?: string
   contentsScale?: number
 
   isEnabled?: boolean
@@ -147,3 +174,11 @@ export type EmitterCellType = {
   speed?: number | null
   duration?: number | null
 }
+
+export type EmitterCellType = {
+  /**
+   * Sub particles to be emitted by this cell.
+   */
+  emitterCells?: EmitterCellType[]
+} & EmitterCellContents &
+  EmitterCellValues

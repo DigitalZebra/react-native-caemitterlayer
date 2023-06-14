@@ -1,11 +1,33 @@
 import React from 'react'
-import { Platform, View, ViewProps } from 'react-native'
+import type { ImageResolvedAssetSource } from 'react-native'
+import { Image, Platform, View, ViewProps } from 'react-native'
 
 import { ReactNativeCAEmitterLayerView } from './ReactNativeCAEmitterLayerView'
-import { EmitterCellType, EmitterLayer, StringContents } from './types'
+import type {
+  EmitterCellType,
+  EmitterCellValues,
+  EmitterLayer,
+  ImageDataContentsOption,
+  LegacyEmitterCellContents,
+  StringContents,
+  StringContentsOption,
+} from './types'
 
-type NativeCellConfiguration = Required<EmitterCellType> & {
-  emitterCells: Required<EmitterCellType>[]
+type NativeCellContents =
+  | StringContentsOption
+  | LegacyEmitterCellContents
+  | ImageDataContentsOption
+  | {
+      imageContents: ImageResolvedAssetSource
+      stringContents?: never
+      imageData?: never
+      contents?: never
+    }
+
+type NativeCellType = Required<EmitterCellValues> & NativeCellContents
+
+type NativeCellConfiguration = NativeCellType & {
+  emitterCells: NativeCellType[]
 }
 
 type NativeLayerConfiguration = Required<EmitterLayer> & {
@@ -22,7 +44,9 @@ export type EmitterViewProps = {
   emitterConfig: EmitterConfigPropType
 } & ViewProps
 
-// TODO: not sure how I feel about this API
+/**
+ * @deprecated This and associated {@link StringContents} will be removed in a future release. Consider using {@link StringContentsOption} instead.
+ */
 export function stringContents(value: string): StringContents {
   return {
     type: 'string',
@@ -31,19 +55,18 @@ export function stringContents(value: string): StringContents {
 }
 
 function EmitterViewIOS({ emitterConfig, ...rest }: EmitterViewProps) {
-  const layersWithDefaults = Object.assign(
+  const layersWithDefaults: NativeLayerConfiguration = Object.assign(
     {},
     defaultLayerConfig,
     emitterConfig.layer,
-  )
-
-  layersWithDefaults.emitterCells = recursivelyApplyDefaults(
-    layersWithDefaults.emitterCells,
+    {
+      emitterCells: recursivelyApplyDefaults(
+        emitterConfig.layer?.emitterCells ?? [],
+      ),
+    },
   )
 
   const config: NativeEmitterConfiguration = {
-    // TODO: fix this TS error - technically this is not safe, as keys can be present but values undefined.
-    // @ts-expect-error
     layer: layersWithDefaults,
   }
 
@@ -61,7 +84,7 @@ export const EmitterView = Platform.select({
   default: EmitterViewDefault,
 })
 
-const defaultLayerConfig: Required<EmitterLayer> = {
+const defaultLayerConfig: Omit<Required<EmitterLayer>, 'emitterCells'> = {
   scale: 1,
   spin: 1,
   velocity: 1,
@@ -81,7 +104,6 @@ const defaultLayerConfig: Required<EmitterLayer> = {
     width: 0,
     height: 0,
   },
-  emitterCells: [],
   enabled: true,
   initialValues: {
     seed: undefined,
@@ -97,11 +119,8 @@ const defaultLayerConfig: Required<EmitterLayer> = {
   },
 }
 
-const defaultCellConfig: Required<EmitterCellType> = {
+const defaultCellConfig: Required<EmitterCellValues> = {
   color: 'white',
-  emitterCells: [],
-  imageData: '',
-  contents: null,
   isEnabled: true,
   contentsScale: 1,
   emissionLatitude: 0,
@@ -147,14 +166,22 @@ function recursivelyApplyDefaults(
 ): NativeCellConfiguration[] {
   const defaultedCells: NativeCellConfiguration[] = []
 
-  cells.forEach(x => {
-    const cellWithDefaults = Object.assign({}, defaultCellConfig, x)
-    cellWithDefaults.emitterCells = recursivelyApplyDefaults(
-      cellWithDefaults.emitterCells,
+  cells.forEach(cell => {
+    const subCells = cell.emitterCells ?? []
+
+    // TODO: might be a cleaner way to do this...?
+    const cellWithDefaults: NativeCellConfiguration = Object.assign(
+      {},
+      { emitterCells: [] },
+      defaultCellConfig,
+      cell,
+      cell.imageContents
+        ? { imageContents: Image.resolveAssetSource(cell.imageContents) }
+        : {},
     )
 
-    // TODO: fix the emitter cell types - technically this is not safe, as keys can be present but values undefined.
-    // @ts-expect-error
+    cellWithDefaults.emitterCells = recursivelyApplyDefaults(subCells)
+
     defaultedCells.push(cellWithDefaults)
   })
 

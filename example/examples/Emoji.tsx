@@ -1,9 +1,5 @@
 import { View } from 'react-native'
-import {
-  EmitterConfigPropType,
-  EmitterView,
-  stringContents,
-} from 'react-native-caemitterlayer'
+import { EmitterConfigPropType, EmitterView } from 'react-native-caemitterlayer'
 
 const emitterConfig: EmitterConfigPropType = {
   layer: {
@@ -14,7 +10,7 @@ const emitterConfig: EmitterConfigPropType = {
     },
     emitterCells: [
       {
-        contents: stringContents('🦓'),
+        stringContents: { value: '🦓' },
         lifetime: 5,
         contentsScale: 2,
         alphaSpeed: -0.2,
