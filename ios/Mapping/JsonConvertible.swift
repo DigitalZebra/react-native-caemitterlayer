@@ -5,7 +5,7 @@ import Foundation
 protocol JsonConvertible: Decodable, Convertible, AnyArgument {}
 
 extension JsonConvertible {
-    static func convert(from value: Any?) throws -> Self {
+    static func convert(from value: Any?, appContext: AppContext) throws -> Self {
         let vstring = value as? String
 
         guard let vstring else {

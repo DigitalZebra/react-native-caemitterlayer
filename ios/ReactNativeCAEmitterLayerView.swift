@@ -102,7 +102,9 @@ class ReactNativeCAEmitterLayerView: ExpoView {
             }
             
             // TODO: don't silently fail here
-            cell.color = try? CGColor.convert(from: cellConfig.color)
+            if let appContext = appContext {
+                cell.color = try? CGColor.convert(from: cellConfig.color, appContext: appContext)
+            }
             
             cellConfig.values.forEach { x in
                 cell.setValue(x.value.anyValue, forKey: x.key)
